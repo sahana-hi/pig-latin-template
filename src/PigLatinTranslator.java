@@ -3,11 +3,17 @@ import java.lang.*;
 public class PigLatinTranslator {
   public static Book translate(Book input) {
     Book translatedBook = new Book();
-
+    for (int i = 0; i < input.getLineCount(); i++) {
+      String line = input.getLine(i);
+     if (line == null || line.isEmpty()) {
+       translatedBook.appendLine("");
+     } else {
+       translatedBook.appendLine(translate(line));
+     }
     // Add code here to populate translatedBook with a translation of the input
     // book.
-    // Current do-nothing code will return an empty bo9ok.,,,,,,
-
+    // Current do-nothing code will return an empty book.,,,,,,
+    }
     return translatedBook;
   }
 
@@ -32,6 +38,7 @@ public class PigLatinTranslator {
   }
 
   private static String translateWord(String input) {
+    // this method is for whole sentences (multiple words)
     String result = input;
     // for empty input string, just return the string
     if ((input == null) || (input.isBlank()) || (input.isEmpty())) {
@@ -60,29 +67,13 @@ public class PigLatinTranslator {
       result = String.join("", outputs);
       return result;
     }
-
-    // if (input.contains("-")) {
-    //   String[] inputs = input.split("-");
-    //   String[] outputs = new String[inputs.length];
-    //   for (int i = 0; i < inputs.length; i++) {
-    //     outputs[i] = translateWordHelper(inputs[i]);
-    //   }
-    //   result = String.join("-", outputs);
-    //   return result;
-    // } else if (input.contains(" ")) {
-    //   String[] inputs = input.split(" ");
-    //   String[] outputs = new String[inputs.length];
-    //   for (int i = 0; i < inputs.length; i++) {
-    //     outputs[i] = translateWordHelper(inputs[i]);
-    //   }
-    //   result = String.join(" ", outputs);
-    //   return result;
-    // } else {
-    //   return translateWordHelper(input);
-    // }
   }
 
   private static String translateWordHelper(String input) {
+    // this is for individual words, so you need to check if the individual word is blank string
+    if ((input == null) || (input.isBlank()) || (input.isEmpty())) {
+      return input;
+    }
     String result = input;
     char first = input.charAt(0);
     if (isVowel(first)) {
