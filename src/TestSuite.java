@@ -4,6 +4,8 @@ public class TestSuite
     public static void run()
     {
         boolean pass = true;
+        pass &= basicTest("clean-cut", "eanclay-utcay");
+        pass &= basicTest("clean", "eanclay");
         // "null" :) 
         pass &= basicTest("null", "ullnay");
 
