@@ -2,17 +2,14 @@ import java.lang.*;
 
 public class PigLatinTranslator {
   public static Book translate(Book input) {
-    Book translatedBook = new Book();
+    Book translatedBook = new Book(input.getTitle());
     for (int i = 0; i < input.getLineCount(); i++) {
       String line = input.getLine(i);
-     if (line == null || line.isEmpty()) {
-       translatedBook.appendLine("");
-     } else {
-       translatedBook.appendLine(translate(line));
-     }
-    // Add code here to populate translatedBook with a translation of the input
-    // book.
-    // Current do-nothing code will return an empty book.,,,,,,
+      if (line == null || line.isEmpty()) {
+        translatedBook.appendLine("");
+      } else {
+        translatedBook.appendLine(translate(line));
+      }
     }
     return translatedBook;
   }
@@ -29,48 +26,31 @@ public class PigLatinTranslator {
     return result;
   }
 
-  public static boolean isVowel(char chh) {
-    if ("AEIOUaeiou".indexOf(chh) != -1) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   private static String translateWord(String input) {
-    // this method is for whole sentences (multiple words)
-    String result = input;
-    // for empty input string, just return the string
+    // if empty return input
     if ((input == null) || (input.isBlank()) || (input.isEmpty())) {
-      return result;
+      return input;
     }
-    // split input string by - or " " to get separate strings and storing it in an array
-    String[] inputs = input.split("[- ]");
-    // create an array with length of strings from inputs
-    String[] outputs = new String[inputs.length];
-    // for each input string, call translate helper method to translate into pig latin
-    // Store output in the outputs array at corresponding indices
-    for (int i = 0; i < inputs.length; i++) {
-      outputs[i] = translateWordHelper(inputs[i]);
+    // split sentence by space to get words, -1 gives each space as a word
+    String[] inputsss = input.split(" ", -1);
+    String result = "";
+    for (int i = 0; i < inputsss.length; i++) {
+      String r = "";
+      // split the word by hypen, if no hyphen return original word
+      String[] hyphen = inputsss[i].split("-", -1);
+      // translate each word into pig latin
+      for (int j = 0; j < hyphen.length; j++) {
+        hyphen[j] = translateWordHelper(hyphen[j]);
+      }
+      inputsss[i] = String.join("-", hyphen);
     }
-
-    // Outputs array now has list of pig latin words and combines them and stores in result
-    // if input has a -, combine with -; if input has " ", combine with " "
-    // if no delimiter, combine outputs with empty string
-    if (input.contains("-")) {    
-      result = String.join("-", outputs);
-      return result;
-    } else if (input.contains(" ")) {
-      result = String.join(" ", outputs);
-      return result;
-    } else {
-      result = String.join("", outputs);
-      return result;
-    }
+    result = String.join(" ", inputsss);
+    return result;
   }
 
   private static String translateWordHelper(String input) {
-    // this is for individual words, so you need to check if the individual word is blank string
+    // this is for individual words, so you need to check if the individual word is
+    // blank string
     if ((input == null) || (input.isBlank()) || (input.isEmpty())) {
       return input;
     }
@@ -94,7 +74,7 @@ public class PigLatinTranslator {
       }
     }
     // move the dot to the end
-    if (result.contains(".")) {
+    if (input.contains(".")) {
       result = result.replace(".", "");
       result = result + ".";
     }
@@ -104,5 +84,14 @@ public class PigLatinTranslator {
   // Add additonal private methods here.
   // For example, I had one like this:
   // private static String capitalizeFirstLetter(String input)
+
+  // private method
+  private static boolean isVowel(char chh) {
+    if ("AEIOUaeiou".indexOf(chh) != -1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 }

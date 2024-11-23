@@ -12,8 +12,11 @@ public class Book
     private ArrayList<String> text = new ArrayList<String>();
 
     Book()
-    {
-        // Empty book
+    {}
+
+    // constructor 
+    Book(String title) {
+        this.title = title;
     }
 
     public void printlines(int start, int length)
